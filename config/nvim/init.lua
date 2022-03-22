@@ -12,4 +12,37 @@ vim.cmd([[packadd packer.nvim]])
 
 return require("packer").startup(function(use)
     use({ "wbthomason/packer.nvim", opt = true })
+
+    use({
+        "nvim-telescope/telescope.nvim",
+        requires = {
+            { "nvim-lua/popup.nvim" },
+            { "nvim-lua/plenary.nvim" },
+        },
+        config = function()
+            local telescope = require("telescope")
+            local actions = require("telescope.actions")
+            telescope.setup({
+                defaults = {
+                    set_env = { ["COLORTERM"] = "truecolor" },
+                    layout_strategy = "vertical",
+                    -- Global remapping
+                    mappings = {
+                        i = {
+                            ["<cr>"] = actions.select_default,
+                            ["<c-space>"] = actions.toggle_selection,
+                            ["<esc>"] = actions.close,
+                        },
+                        n = {
+                            ["<c-p>"] = actions.move_selection_previous,
+                            ["<c-n>"] = actions.move_selection_next,
+                            ["<esc>"] = actions.close,
+                            ["<space>"] = actions.toggle_selection,
+                        },
+                    },
+                    shorten_path = false,
+                },
+            })
+        end,
+    })
 end)
